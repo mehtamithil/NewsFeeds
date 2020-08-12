@@ -1,0 +1,6 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- fragment_splash -->
+    <dimen name="txt_app_name_text_size_fragment_splash">50sp</dimen>
+
+</resources>
