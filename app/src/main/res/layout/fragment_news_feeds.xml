@@ -1,13 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <FrameLayout
-        android:id="@+id/frmRoot"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorAccent">
+        android:background="@color/colorPrimary">
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tlbr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:background="@color/colorPrimaryDark"
+            app:title="@string/app_name"
+            app:titleTextColor="@color/colorAccent" />
 
-    </FrameLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rclr"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tlbr"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:background="@color/colorAccent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/rv_row_news_feed" />
+
+        <FrameLayout
+            android:id="@+id/frmProgress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/translucent"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminateTint="@color/colorPrimaryDark" />
+
+        </FrameLayout>
+
+    </RelativeLayout>
 
 </layout>
