@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.0"
 
     defaultConfig {
         applicationId "com.newsfeed"
@@ -30,6 +30,15 @@ android {
     repositories {
         jcenter()
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
@@ -37,22 +46,32 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
-    // AndroidX
+    // For AndroidX
     implementation "androidx.core:core-ktx:1.3.1"
-    implementation "androidx.appcompat:appcompat:1.2.0"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
+    implementation "androidx.appcompat:appcompat:1.2.0" // For AppCompatActivity
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0" // For LiveData
+    implementation "androidx.cardview:cardview:1.0.0" // For CardView to represent the RecyclerView's cell
+    implementation "androidx.constraintlayout:constraintlayout:1.1.3" // For ConstraintLayout
+    implementation "androidx.recyclerview:recyclerview:1.1.0" // For RecyclerView
 
-    // Koin
+    // For Koin
     implementation "org.koin:koin-android:2.1.5"
     implementation "org.koin:koin-android-viewmodel:2.1.5"
 
-    // Rx
+    // For Rx
     implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
     implementation "io.reactivex.rxjava2:rxkotlin:2.3.0"
 
-    // Jetpack Navigation
+    // For Jetpack Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:2.3.0"
     implementation "androidx.navigation:navigation-ui-ktx:2.3.0"
+
+    // For Glide (ImageLoader)
+    implementation "com.github.bumptech.glide:glide:3.7.0"
+    annotationProcessor "com.github.bumptech.glide:compiler:4.9.0"
+
+    // For API
+    implementation project(':api')
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

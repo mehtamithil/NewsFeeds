@@ -15,12 +15,15 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class SplashFragment : Fragment() {
 
-    /**
-    = DataBindingUtil.inflate<FragmentSplashBinding>(inflater, R.layout.fragment_splash, container, false).root	     * The ViewModel instance would be injected from the 'viewModelModule' initialized in AppModule.kt
-     */
-    private val vm: SplashViewModel by viewModel()
+    private val vm: SplashViewModel by viewModel() // The ViewModel instance is provide by Koin
+                                                   // using the viewModelModule from AppModule
 
     private lateinit var viewDataBinding: FragmentSplashBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        retainInstance = true // will maintain the Fragment instance when orientation changes
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ) =
         DataBindingUtil.inflate<FragmentSplashBinding>(
