@@ -3,6 +3,9 @@
     <!-- fragment_splash -->
     <dimen name="txt_app_name_text_size_fragment_splash">50sp</dimen>
 
+    <!-- fragment_news_feeds -->
+    <dimen name="rclr_decoration_ht_fragment_news_feeds">10dp</dimen>
+
     <!-- rv_row_news_feed -->
     <dimen name="crd_elevation_rv_row_news_feed">5dp</dimen>
     <dimen name="common_pad_mar_rv_row_news_feed">10dp</dimen>

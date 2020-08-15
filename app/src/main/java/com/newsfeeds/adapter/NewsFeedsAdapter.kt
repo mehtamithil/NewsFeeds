@@ -27,12 +27,12 @@ class NewsFeedsAdapter(private val nfl: NewsFeedsList) :
         }
     }
 
+    override fun getItemCount() = nfl.newsFeeds.size
+
     override fun onViewRecycled(holder: NewsFeedsVH) {
         super.onViewRecycled(holder)
-        holder.binding.imgNews.setImageResource(R.mipmap.ic_launcher)
+        holder.binding.imgNews.setImageResource(R.drawable.ic_placeholder)
     }
-
-    override fun getItemCount() = nfl.newsFeeds.size
 
     inner class NewsFeedsVH(val binding: RvRowNewsFeedBinding) :
         RecyclerView.ViewHolder(binding.root)

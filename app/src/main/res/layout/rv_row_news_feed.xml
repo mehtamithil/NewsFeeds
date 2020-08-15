@@ -58,14 +58,14 @@
                 imageUrl="@{newsFeed.imageHref}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scaleType="centerInside"
                 android:layout_marginLeft="@dimen/common_pad_mar_rv_row_news_feed"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_placeholder"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/gdln60"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtTitle"
-                app:layout_constraintVertical_bias="0"
-                tools:src="@mipmap/ic_launcher" />
+                app:layout_constraintVertical_bias="0" />
 
             <TextView
                 android:id="@+id/txtDescription"
