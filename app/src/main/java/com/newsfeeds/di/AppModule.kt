@@ -7,7 +7,6 @@ import com.newsfeeds.viewmodel.NewsFeedsViewModel
 import com.newsfeeds.viewmodel.SplashViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import org.koin.android.ext.koin.androidApplication
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -20,7 +19,7 @@ val repositoryModule = module {
     /**
      * This single ApiService instance would be shared to all API Repositories listed below
      */
-    val apiService by lazy { ApiClient().apiService }
+    val apiService by lazy { ApiClient.apiService }
 
     single<NewsFeedsRepository> { NewsFeedsRepositoryImpl(apiService) }
 }
