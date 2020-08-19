@@ -2,6 +2,7 @@ package com.newsfeeds.fragment
 
 import android.graphics.Rect
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,16 +20,25 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class NewsFeedsFragment : Fragment() {
 
-    private val vm: NewsFeedsViewModel by viewModel() // The ViewModel instance is provide by Koin
-    // using the viewModelModule from AppModule
+    /**
+     * The ViewModel instance is provided by Koin using the viewModelModule from AppModule
+     * also the SAME INSTANCE of ViewModel (with data retained) is provided by the Koin after
+     * the orientation gets changed.
+     */
+    private val vm: NewsFeedsViewModel by viewModel()
 
-    private lateinit var newsFeedsAdapter: NewsFeedsAdapter
+    private val newsFeedsAdapter by lazy { NewsFeedsAdapter() }
 
-    private lateinit var viewDataBinding: FragmentNewsFeedsBinding
+    lateinit var viewDataBinding: FragmentNewsFeedsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        retainInstance = true // will maintain the Fragment instance when orientation changes
+        /**
+         * The Fragment isn't retained but the ViewModel is retained after the orientation changes,
+         * this could be checked by printing the instance memory address in the below logs.
+         */
+        Log.d(javaClass.simpleName, "Current Fragment Instance: $this")
+        Log.d(javaClass.simpleName, "Current ViewModel Instance: $vm")
     }
 
     override fun onCreateView(
@@ -41,34 +51,30 @@ class NewsFeedsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewDataBinding.apply {
 
-            fun updateNewsFeeds() {
-                swpRfrshNewsFeeds.isEnabled = false
+            vm.ldOnNewsFeedsListLoaded.observe(viewLifecycleOwner, Observer {
+                newsFeedsAdapter.update(it)
                 frmProgress.visibility = View.GONE
-                rclr.apply {
-                    adapter = newsFeedsAdapter
-                    addItemDecoration(
-                        ItemDecoration(resources.getDimensionPixelSize(R.dimen.rclr_decoration_ht_fragment_news_feeds))
-                    )
-                }
-            }
+            })
 
-            if (::newsFeedsAdapter.isInitialized) updateNewsFeeds() else {
-
-                vm.ldOnNewsFeedsListLoaded.observe(viewLifecycleOwner, Observer {
-                    newsFeedsAdapter = NewsFeedsAdapter(it)
-                    updateNewsFeeds()
-                })
-
-                vm.ldOnError.observe(viewLifecycleOwner, Observer {
+            vm.ldOnError.observe(viewLifecycleOwner, Observer { error ->
+                error?.let {
                     swpRfrshNewsFeeds.isEnabled = true
                     frmProgress.visibility = View.GONE
                     Snackbar.make(root, it, Snackbar.LENGTH_LONG).show()
-                })
+                }
+            })
+
+            rclr.apply {
+                adapter = newsFeedsAdapter
+                addItemDecoration(
+                    ItemDecoration(resources.getDimensionPixelSize(R.dimen.rclr_decoration_ht_fragment_news_feeds))
+                )
             }
 
             swpRfrshNewsFeeds.setOnRefreshListener {
                 swpRfrshNewsFeeds.isRefreshing = false
                 frmProgress.visibility = View.VISIBLE
+                newsFeedsAdapter.clear()
                 vm.loadNewsFeeds()
             }
 
@@ -78,7 +84,10 @@ class NewsFeedsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        vm.loadNewsFeeds()
+        /**
+         * if (vm.ldOnNewsFeedsListLoaded.value == null) then load News Feeds
+         */
+        vm.ldOnNewsFeedsListLoaded.value ?: vm.loadNewsFeeds()
     }
 }
 

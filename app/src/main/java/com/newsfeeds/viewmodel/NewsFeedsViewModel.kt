@@ -45,6 +45,14 @@ class NewsFeedsViewModel(private val repository: NewsFeedsRepository, private va
 
                     override fun onError(e: Throwable) {
                         mtldOnError.value = e.message
+                        /**
+                         * resetting 'mtldOnError' back to null after once this value is notified,
+                         * otherwise the value would be stored in the LiveData and every-time user
+                         * changes the orientation then LiveData will instantly listen this value
+                         * as soon as we attach the Observer to it and SnackBar would be shown
+                         * to the user representing the earlier error.
+                         */
+                        mtldOnError.value = null
                     }
                 }))
     }

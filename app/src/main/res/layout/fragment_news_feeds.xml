@@ -12,9 +12,9 @@
             android:id="@+id/tlbr"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:background="@color/colorPrimaryDark"
             app:logo="@mipmap/ic_launcher"
             app:title="@string/app_name"
@@ -25,8 +25,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tlbr"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
             android:background="@color/colorAccent">
 
             <LinearLayout

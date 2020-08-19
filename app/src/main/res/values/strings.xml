@@ -3,6 +3,9 @@
     <string name="app_name" translatable="false">News Feeds</string>
 
     <!-- Splash -->
-    <string name="splash_timer_error_msg"  translatable="false">Something went wrong. Please try again later</string>
+    <string name="splash_timer_error_msg" translatable="false">Something went wrong. Please try again later</string>
+
+    <!-- News Feeds -->
+    <string name="content_description_news_image" translatable="false">News Image</string>
 
 </resources>
