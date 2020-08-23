@@ -61,6 +61,15 @@ class NewsFeedsFragment : Fragment() {
                     swpRfrshNewsFeeds.isEnabled = true
                     frmProgress.visibility = View.GONE
                     Snackbar.make(root, it, Snackbar.LENGTH_LONG).show()
+
+                    /**
+                     * resetting 'mtldOnError' back to null after once this value is notified,
+                     * otherwise the value would be stored in the LiveData and every-time user
+                     * changes the orientation then LiveData will instantly listen this value
+                     * as soon as we attach the Observer to it and SnackBar would be shown
+                     * to the user representing the earlier error.
+                     */
+                    vm.clearError()
                 }
             })
 

@@ -9,7 +9,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableCompletableObserver
 import java.util.concurrent.TimeUnit
 
-class SplashViewModel(private val mainScheduler: Scheduler, private val ioScheduler: Scheduler) : ViewModel() {
+class SplashViewModel(private val observeOnScheduler: Scheduler, private val subscribeOnScheduler: Scheduler) : ViewModel() {
 
     private val compositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }
 
@@ -21,8 +21,8 @@ class SplashViewModel(private val mainScheduler: Scheduler, private val ioSchedu
 
     fun startTimer() {
         compositeDisposable.add(Completable.timer(DELAY_SPLASH.toLong(), TimeUnit.SECONDS)
-            .subscribeOn(ioScheduler)
-            .observeOn(mainScheduler)
+            .subscribeOn(subscribeOnScheduler)
+            .observeOn(observeOnScheduler)
             .subscribeWith(object : DisposableCompletableObserver() {
 
                 override fun onComplete() {

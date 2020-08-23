@@ -11,4 +11,5 @@ interface NewsFeedsRepository {
 class NewsFeedsRepositoryImpl(private val apiService: ApiService) : NewsFeedsRepository {
 
     override fun getNewsFeeds() = apiService.getNewsFeeds()
+
 }

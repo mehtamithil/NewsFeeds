@@ -1,18 +1,14 @@
 package com.newsfeeds
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Observer
-import com.newsfeeds.api.ApiService
 import com.newsfeeds.api.model.NewsFeed
 import com.newsfeeds.api.model.NewsFeedsList
 import com.newsfeeds.repository.remote.NewsFeedsRepository
 import com.newsfeeds.viewmodel.NewsFeedsViewModel
 import io.reactivex.Single
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import org.junit.Assert
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
+import org.junit.*
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
@@ -26,36 +22,19 @@ class NewsFeedsViewModelTest {
     val instantExecutorRule = InstantTaskExecutorRule()
 
     @Mock
-    lateinit var successObserver: Observer<NewsFeedsList>
-
-    @Mock
-    lateinit var failureObserver: Observer<String>
-
-    @Mock
     lateinit var newsFeedsRepository: NewsFeedsRepository
 
-    @Mock
-    lateinit var apiService: ApiService
-
-    lateinit var viewModel: NewsFeedsViewModel
+    private var viewModel : NewsFeedsViewModel? = null
 
     @Before
     fun beforeTest() {
         MockitoAnnotations.initMocks(this)
-
-        successObserver = Mockito.mock(Observer::class.java) //Observer { Log.d(javaClass.simpleName, "NewsFeedsList: $it") }
-        failureObserver = Mockito.mock(Observer::class.java) //Observer { Log.d(javaClass.simpleName, "Error: $it") }
-
-        viewModel = NewsFeedsViewModel(
-            newsFeedsRepository, Schedulers.trampoline(), Schedulers.trampoline()
-        )
-        viewModel.ldOnNewsFeedsListLoaded.observeForever(successObserver)
-        viewModel.ldOnError.observeForever(failureObserver)
+        viewModel = NewsFeedsViewModel(newsFeedsRepository, Schedulers.trampoline(),
+            Schedulers.trampoline(), CompositeDisposable())
     }
 
     @Test
     fun testApiSuccess() {
-        // Mock API response
         val newsFeedsList = NewsFeedsList(
             "About Canada", mutableListOf(
                 NewsFeed(
@@ -82,23 +61,31 @@ class NewsFeedsViewModelTest {
             )
         )
 
-        `when`(apiService.getNewsFeeds()).thenReturn(Single.just(newsFeedsList))
-        viewModel.loadNewsFeeds()
+        Mockito.`when`(newsFeedsRepository.getNewsFeeds()).thenReturn(Single.just(newsFeedsList))
 
-        verify() { successObserver.onChanged(capture(slots)) }
-
-        //Assert.assertEquals(newsFeedsList, viewModel.ldOnNewsFeedsListLoaded.value)
-        //Assert.assertEquals(null, viewModel.ldOnError.value)
+        viewModel?.let {
+            it.loadNewsFeeds()
+            Assert.assertEquals(newsFeedsList, it.ldOnNewsFeedsListLoaded.value)
+            Assert.assertNull(it.ldOnError.value)
+        }
     }
 
     @Test
     fun testApiError() {
         val throwable = Throwable("Api Error")
 
-        `when`(apiService.getNewsFeeds()).thenReturn(Single.error(throwable))
-        viewModel.loadNewsFeeds()
+        Mockito.`when`(newsFeedsRepository.getNewsFeeds()).thenReturn(Single.create { it.onError(throwable) })
 
-        Assert.assertEquals(null, viewModel.ldOnNewsFeedsListLoaded.value)
-        Assert.assertEquals(throwable, viewModel.ldOnError.value)
+        viewModel?.let {
+            it.loadNewsFeeds()
+            Assert.assertNull(it.ldOnNewsFeedsListLoaded.value)
+            Assert.assertEquals(throwable.message, it.ldOnError.value)
+        }
     }
+
+    @After
+    fun afterTest() {
+        viewModel = null
+    }
+
 }

@@ -9,10 +9,8 @@ import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 
-class NewsFeedsViewModel(private val repository: NewsFeedsRepository, private val mainScheduler: Scheduler,
-    private val ioScheduler: Scheduler) : ViewModel() {
-
-    private val compositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }
+class NewsFeedsViewModel(private val repository: NewsFeedsRepository, private val observeOnScheduler: Scheduler,
+                         private val subscribeOnScheduler: Scheduler, private val compositeDisposable: CompositeDisposable) : ViewModel() {
 
     private val mtldOnNewsFeedsListLoaded by lazy { MutableLiveData<NewsFeedsList>() }
     val ldOnNewsFeedsListLoaded: LiveData<NewsFeedsList>
@@ -24,8 +22,8 @@ class NewsFeedsViewModel(private val repository: NewsFeedsRepository, private va
 
     fun loadNewsFeeds() {
         compositeDisposable.add(repository.getNewsFeeds()
-                .subscribeOn(ioScheduler)
-                .observeOn(mainScheduler)
+                .subscribeOn(subscribeOnScheduler)
+                .observeOn(observeOnScheduler)
                 .subscribeWith(object : DisposableSingleObserver<NewsFeedsList>() {
 
                     override fun onSuccess(nfl: NewsFeedsList) {
@@ -45,16 +43,12 @@ class NewsFeedsViewModel(private val repository: NewsFeedsRepository, private va
 
                     override fun onError(e: Throwable) {
                         mtldOnError.value = e.message
-                        /**
-                         * resetting 'mtldOnError' back to null after once this value is notified,
-                         * otherwise the value would be stored in the LiveData and every-time user
-                         * changes the orientation then LiveData will instantly listen this value
-                         * as soon as we attach the Observer to it and SnackBar would be shown
-                         * to the user representing the earlier error.
-                         */
-                        mtldOnError.value = null
                     }
                 }))
+    }
+
+    fun clearError() {
+        mtldOnError.value = null
     }
 
     override fun onCleared() {

@@ -6,6 +6,7 @@ import com.newsfeeds.repository.remote.NewsFeedsRepositoryImpl
 import com.newsfeeds.viewmodel.NewsFeedsViewModel
 import com.newsfeeds.viewmodel.SplashViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -34,8 +35,11 @@ val viewModelModule = module {
      */
     val mainScheduler by lazy { AndroidSchedulers.mainThread() }
     val ioScheduler by lazy { Schedulers.io() }
+    val computationScheduler by lazy { Schedulers.computation() }
 
-    viewModel { SplashViewModel(mainScheduler, ioScheduler) }
-    viewModel { NewsFeedsViewModel(get(), mainScheduler, ioScheduler) }
+    val compositeDisposable by lazy { CompositeDisposable() }
+
+    viewModel { SplashViewModel(mainScheduler, computationScheduler) }
+    viewModel { NewsFeedsViewModel(get(), mainScheduler, ioScheduler, compositeDisposable) }
 
 }
