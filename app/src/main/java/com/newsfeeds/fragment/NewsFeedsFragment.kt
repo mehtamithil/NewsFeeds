@@ -41,11 +41,11 @@ class NewsFeedsFragment : Fragment() {
         Log.d(javaClass.simpleName, "Current ViewModel Instance: $vm")
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ) = DataBindingUtil.inflate<FragmentNewsFeedsBinding>(
-        inflater, R.layout.fragment_news_feeds, container, false
-    ).also { viewDataBinding = it }.root
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?)
+            = DataBindingUtil.inflate<FragmentNewsFeedsBinding>(inflater, R.layout.fragment_news_feeds, container, false)
+        .also {
+            viewDataBinding = it
+        }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -75,9 +75,7 @@ class NewsFeedsFragment : Fragment() {
 
             rclr.apply {
                 adapter = newsFeedsAdapter
-                addItemDecoration(
-                    ItemDecoration(resources.getDimensionPixelSize(R.dimen.rclr_decoration_ht_fragment_news_feeds))
-                )
+                addItemDecoration(ItemDecoration(resources.getDimensionPixelSize(R.dimen.rclr_decoration_ht_fragment_news_feeds)))
             }
 
             swpRfrshNewsFeeds.setOnRefreshListener {
@@ -102,9 +100,7 @@ class NewsFeedsFragment : Fragment() {
 
 private class ItemDecoration(private val margin: Int) : RecyclerView.ItemDecoration() {
 
-    override fun getItemOffsets(
-        outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State
-    ) {
+    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         with(outRect) {
             if (parent.getChildAdapterPosition(view) == 0) top = margin
             left = margin

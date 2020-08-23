@@ -16,7 +16,6 @@ fun loadImage(activity: Context?, img: ImageView?, url: String?, imgResIdPlaceHo
         .load(url)
         .diskCacheStrategy(DiskCacheStrategy.RESULT)
         .dontAnimate()
-        //.fitCenter()
         .placeholder(imgResIdPlaceHolder ?: R.color.translucent)
         .listener(object : RequestListener<String?, GlideDrawable?> {
 
@@ -29,11 +28,8 @@ fun loadImage(activity: Context?, img: ImageView?, url: String?, imgResIdPlaceHo
                 return false
             }
 
-            override fun onResourceReady(
-                resource: GlideDrawable?, model: String?,
-                target: Target<GlideDrawable?>?, isFromMemoryCache: Boolean,
-                isFirstResource: Boolean
-            ): Boolean {
+            override fun onResourceReady(resource: GlideDrawable?, model: String?, target: Target<GlideDrawable?>?,
+                                         isFromMemoryCache: Boolean, isFirstResource: Boolean): Boolean {
                 return false
             }
         }).into(img)

@@ -26,9 +26,10 @@ class SplashFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ) =
-        DataBindingUtil.inflate<FragmentSplashBinding>(
-            inflater, R.layout.fragment_splash, container, false
-        ).also { viewDataBinding = it }.root
+        DataBindingUtil.inflate<FragmentSplashBinding>(inflater, R.layout.fragment_splash, container, false)
+            .also {
+                viewDataBinding = it
+            }.root
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
