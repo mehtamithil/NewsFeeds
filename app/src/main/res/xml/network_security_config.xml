@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <!--
+        Here we will list down the trusted domains to avoid "Cleartext HTTP traffic" issue on them
+        -->
+        <domain includeSubdomains="true">fyimusic.ca</domain>
+        <domain includeSubdomains="true">files.turbosquid.com</domain>
+        <domain includeSubdomains="true">caroldeckerwildlifeartstudio.net</domain>
+        <domain includeSubdomains="true">1.bp.blogspot.com</domain>
+        <domain includeSubdomains="true">images.findicons.com</domain>
+        <domain includeSubdomains="true">icons.iconarchive.com</domain>
+        <domain includeSubdomains="true">upload.wikimedia.org</domain>
+        <domain includeSubdomains="true">static.guim.co.uk</domain>
+        <domain includeSubdomains="true">www.donegalhimalayans.com</domain>
+        <domain includeSubdomains="true">3.bp.blogspot.com</domain>
+    </domain-config>
+    <base-config cleartextTrafficPermitted="false" />
+</network-security-config>

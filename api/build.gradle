@@ -37,7 +37,7 @@ dependencies {
     implementation "com.squareup.retrofit2:adapter-rxjava2:2.5.0"
     implementation 'com.squareup.okhttp3:logging-interceptor:3.14.0' // for logging purpose
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 

@@ -19,8 +19,7 @@ fun loadImage(activity: Context?, img: ImageView?, url: String?, imgResIdPlaceHo
             .placeholder(imgResIdPlaceHolder ?: R.color.translucent)
             .listener(object : RequestListener<String?, GlideDrawable?> {
 
-                override fun onException(e: Exception?, model: String?, target: Target<GlideDrawable?>?,
-                                         isFirstResource: Boolean): Boolean {
+                override fun onException(e: Exception?, model: String?, target: Target<GlideDrawable?>?, isFirstResource: Boolean): Boolean {
                     if (activity != null && !(e is FileNotFoundException || e is IOException) && retry) {
                         loadImage(activity, img, url, imgResIdPlaceHolder, false)
                     }
