@@ -13,24 +13,24 @@ import java.io.IOException
 
 fun loadImage(activity: Context?, img: ImageView?, url: String?, imgResIdPlaceHolder: Int? = null, retry: Boolean = true) {
     Glide.with(activity)
-        .load(url)
-        .diskCacheStrategy(DiskCacheStrategy.RESULT)
-        .dontAnimate()
-        .placeholder(imgResIdPlaceHolder ?: R.color.translucent)
-        .listener(object : RequestListener<String?, GlideDrawable?> {
+            .load(url)
+            .diskCacheStrategy(DiskCacheStrategy.RESULT)
+            .dontAnimate()
+            .placeholder(imgResIdPlaceHolder ?: R.color.translucent)
+            .listener(object : RequestListener<String?, GlideDrawable?> {
 
-            override fun onException(e: Exception?, model: String?, target: Target<GlideDrawable?>?,
-                                     isFirstResource: Boolean): Boolean {
-                if (activity != null && !(e is FileNotFoundException || e is IOException) && retry) {
-                    loadImage(activity, img, url, imgResIdPlaceHolder, false)
+                override fun onException(e: Exception?, model: String?, target: Target<GlideDrawable?>?,
+                                         isFirstResource: Boolean): Boolean {
+                    if (activity != null && !(e is FileNotFoundException || e is IOException) && retry) {
+                        loadImage(activity, img, url, imgResIdPlaceHolder, false)
+                    }
+                    imgResIdPlaceHolder?.let { img?.setImageResource(it) }
+                    return false
                 }
-                imgResIdPlaceHolder?.let { img?.setImageResource(it) }
-                return false
-            }
 
-            override fun onResourceReady(resource: GlideDrawable?, model: String?, target: Target<GlideDrawable?>?,
-                                         isFromMemoryCache: Boolean, isFirstResource: Boolean): Boolean {
-                return false
-            }
-        }).into(img)
+                override fun onResourceReady(resource: GlideDrawable?, model: String?, target: Target<GlideDrawable?>?,
+                                             isFromMemoryCache: Boolean, isFirstResource: Boolean): Boolean {
+                    return false
+                }
+            }).into(img)
 }

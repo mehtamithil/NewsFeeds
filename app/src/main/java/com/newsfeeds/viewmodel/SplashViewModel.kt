@@ -21,18 +21,18 @@ class SplashViewModel(private val observeOnScheduler: Scheduler, private val sub
 
     fun startTimer() {
         compositeDisposable.add(Completable.timer(DELAY_SPLASH.toLong(), TimeUnit.SECONDS)
-            .subscribeOn(subscribeOnScheduler)
-            .observeOn(observeOnScheduler)
-            .subscribeWith(object : DisposableCompletableObserver() {
+                .subscribeOn(subscribeOnScheduler)
+                .observeOn(observeOnScheduler)
+                .subscribeWith(object : DisposableCompletableObserver() {
 
-                override fun onComplete() {
-                    mtldOnContinue.value = true
-                }
+                    override fun onComplete() {
+                        mtldOnContinue.value = true
+                    }
 
-                override fun onError(e: Throwable) {
-                    mtldOnContinue.value = false
-                }
-            })
+                    override fun onError(e: Throwable) {
+                        mtldOnContinue.value = false
+                    }
+                })
         )
     }
 

@@ -41,11 +41,9 @@ class NewsFeedsFragment : Fragment() {
         Log.d(javaClass.simpleName, "Current ViewModel Instance: $vm")
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?)
-            = DataBindingUtil.inflate<FragmentNewsFeedsBinding>(inflater, R.layout.fragment_news_feeds, container, false)
-        .also {
-            viewDataBinding = it
-        }.root
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
+            DataBindingUtil.inflate<FragmentNewsFeedsBinding>(inflater, R.layout.fragment_news_feeds, container, false)
+                    .also { viewDataBinding = it }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

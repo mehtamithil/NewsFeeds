@@ -27,25 +27,25 @@ object ApiClient {
 
         val okHttpClient by lazy {
             OkHttpClient.Builder()
-                .connectTimeout(timeout, TimeUnit.MILLISECONDS)
-                .writeTimeout(timeout, TimeUnit.MILLISECONDS)
-                .readTimeout(timeout, TimeUnit.MILLISECONDS)
-                .addInterceptor(requestInterceptor)
-                .also {
-                    if (BuildConfig.DEBUG) {
-                        it.addInterceptor(
-                            HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-                        )
-                    }
-                }.build()
+                    .connectTimeout(timeout, TimeUnit.MILLISECONDS)
+                    .writeTimeout(timeout, TimeUnit.MILLISECONDS)
+                    .readTimeout(timeout, TimeUnit.MILLISECONDS)
+                    .addInterceptor(requestInterceptor)
+                    .also {
+                        if (BuildConfig.DEBUG) {
+                            it.addInterceptor(
+                                    HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+                            )
+                        }
+                    }.build()
         }
 
         Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
-            .client(okHttpClient)
-            .build()
-            .create(ApiService::class.java)
+                .baseUrl(baseUrl)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
+                .client(okHttpClient)
+                .build()
+                .create(ApiService::class.java)
     }
 }

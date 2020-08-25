@@ -13,10 +13,7 @@ class NewsFeedsAdapter : RecyclerView.Adapter<NewsFeedsAdapter.NewsFeedsVH>() {
     var nfl: NewsFeedsList? = null
         private set
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, pos: Int) = NewsFeedsVH(
-        DataBindingUtil.inflate(LayoutInflater.from(viewGroup.context),
-            R.layout.rv_row_news_feed, viewGroup, false)
-    )
+    override fun onCreateViewHolder(viewGroup: ViewGroup, pos: Int) = NewsFeedsVH(DataBindingUtil.inflate(LayoutInflater.from(viewGroup.context), R.layout.rv_row_news_feed, viewGroup, false))
 
     override fun onBindViewHolder(holder: NewsFeedsVH, pos: Int) {
         nfl?.let {
