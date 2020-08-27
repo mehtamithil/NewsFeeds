@@ -14,14 +14,19 @@ class NewsFeedsAdapter : RecyclerView.Adapter<NewsFeedsAdapter.NewsFeedsVH>() {
         private set
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, pos: Int) =
-            NewsFeedsVH(DataBindingUtil.inflate(LayoutInflater.from(viewGroup.context), R.layout.rv_row_news_feed, viewGroup, false))
+            NewsFeedsVH(DataBindingUtil.inflate(LayoutInflater.from(viewGroup.context),
+                    R.layout.rv_row_news_feed, viewGroup, false))
 
     override fun onBindViewHolder(holder: NewsFeedsVH, pos: Int) {
         nfl?.let {
+
             it.newsFeeds[pos].let { nf ->
+
                 holder.binding.apply {
+
                     descAbout = it.title
                     newsFeed = nf
+
                 }
             }
         }
@@ -31,17 +36,23 @@ class NewsFeedsAdapter : RecyclerView.Adapter<NewsFeedsAdapter.NewsFeedsVH>() {
 
     override fun onViewRecycled(holder: NewsFeedsVH) {
         super.onViewRecycled(holder)
+
         holder.binding.imgNews.setImageResource(R.drawable.ic_placeholder)
+
     }
 
     fun clear() {
+
         nfl = null
         notifyDataSetChanged()
+
     }
 
     fun update(list: NewsFeedsList?) {
+
         nfl = list
         notifyDataSetChanged()
+
     }
 
     class NewsFeedsVH(val binding: RvRowNewsFeedBinding) : RecyclerView.ViewHolder(binding.root)

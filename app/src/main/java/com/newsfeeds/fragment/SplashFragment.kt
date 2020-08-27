@@ -25,16 +25,27 @@ class SplashFragment : Fragment() {
         retainInstance = true // will maintain the Fragment instance when orientation changes
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
-            DataBindingUtil.inflate<FragmentSplashBinding>(inflater, R.layout.fragment_splash, container, false)
-                    .also { viewDataBinding = it }.root
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?) =
+
+            DataBindingUtil.inflate<FragmentSplashBinding>(inflater, R.layout.fragment_splash,
+                    container, false).also {
+
+                viewDataBinding = it
+
+            }.root
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         vm.ldOnContinue.observe(viewLifecycleOwner, Observer { success ->
-            if (success) findNavController().navigate(R.id.action_splashFragment_to_newsFeedsFragment)
-            else Snackbar.make(viewDataBinding.root, R.string.splash_timer_error_msg, Snackbar.LENGTH_SHORT).show()
+            if (success) {
+                findNavController().navigate(R.id.action_splashFragment_to_newsFeedsFragment)
+
+            } else {
+                Snackbar.make(viewDataBinding.root, R.string.splash_timer_error_msg,
+                        Snackbar.LENGTH_SHORT).show()
+            }
         })
         vm.startTimer()
     }

@@ -27,7 +27,9 @@ class NewsFeedsFragment : Fragment() {
      */
     private val vm: NewsFeedsViewModel by viewModel()
 
-    private val newsFeedsAdapter by lazy { NewsFeedsAdapter() }
+    private val newsFeedsAdapter by lazy {
+        NewsFeedsAdapter()
+    }
 
     lateinit var viewDataBinding: FragmentNewsFeedsBinding
 
@@ -41,21 +43,30 @@ class NewsFeedsFragment : Fragment() {
         Log.d(javaClass.simpleName, "Current ViewModel Instance: $vm")
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
-            DataBindingUtil.inflate<FragmentNewsFeedsBinding>(inflater, R.layout.fragment_news_feeds, container, false)
-                    .also { viewDataBinding = it }.root
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?) =
+            DataBindingUtil.inflate<FragmentNewsFeedsBinding>(inflater,
+                    R.layout.fragment_news_feeds, container, false).also {
+
+                viewDataBinding = it
+
+            }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewDataBinding.apply {
 
             vm.ldOnNewsFeedsListLoaded.observe(viewLifecycleOwner, Observer {
+
                 newsFeedsAdapter.update(it)
                 frmProgress.visibility = View.GONE
+
             })
 
             vm.ldOnError.observe(viewLifecycleOwner, Observer { error ->
+
                 error?.let {
+
                     swpRfrshNewsFeeds.isEnabled = true
                     frmProgress.visibility = View.GONE
                     Snackbar.make(root, it, Snackbar.LENGTH_LONG).show()
@@ -72,15 +83,19 @@ class NewsFeedsFragment : Fragment() {
             })
 
             rclr.apply {
+
                 adapter = newsFeedsAdapter
                 addItemDecoration(ItemDecoration(resources.getDimensionPixelSize(R.dimen.rclr_decoration_ht_fragment_news_feeds)))
+
             }
 
             swpRfrshNewsFeeds.setOnRefreshListener {
+
                 swpRfrshNewsFeeds.isRefreshing = false
                 frmProgress.visibility = View.VISIBLE
                 newsFeedsAdapter.clear()
                 vm.loadNewsFeeds()
+
             }
 
             (requireActivity() as AppCompatActivity).setSupportActionBar(tlbr)
@@ -98,12 +113,15 @@ class NewsFeedsFragment : Fragment() {
 
 private class ItemDecoration(private val margin: Int) : RecyclerView.ItemDecoration() {
 
-    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView,
+                                state: RecyclerView.State) {
+
         with(outRect) {
             if (parent.getChildAdapterPosition(view) == 0) top = margin
             left = margin
             right = margin
             bottom = margin
         }
+
     }
 }

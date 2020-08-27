@@ -12,12 +12,17 @@ class NewsFeedsApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
         // starting Koin here in Application class
         startKoin {
+
             androidContext(this@NewsFeedsApp) // providing the app context to Koin
+
             if (BuildConfig.DEBUG) androidLogger()
+
             //now setting all the modules which are going to provide all the dependencies.
             modules(viewModelModule)
+
             modules(repositoryModule)
         }
     }

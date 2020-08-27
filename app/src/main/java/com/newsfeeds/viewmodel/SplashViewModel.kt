@@ -9,15 +9,23 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableCompletableObserver
 import java.util.concurrent.TimeUnit
 
-class SplashViewModel(private val observeOnScheduler: Scheduler, private val subscribeOnScheduler: Scheduler) : ViewModel() {
+class SplashViewModel(private val observeOnScheduler: Scheduler,
+                      private val subscribeOnScheduler: Scheduler) : ViewModel() {
 
-    private val compositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }
+    private val compositeDisposable: CompositeDisposable by lazy {
+        CompositeDisposable()
+    }
 
-    private val mtldOnContinue by lazy { MutableLiveData<Boolean>() }
+    private val mtldOnContinue by lazy {
+        MutableLiveData<Boolean>()
+    }
+
     val ldOnContinue: LiveData<Boolean>
         get() = mtldOnContinue
 
-    private val DELAY_SPLASH by lazy { 3 }
+    private val DELAY_SPLASH by lazy {
+        3
+    }
 
     fun startTimer() {
         compositeDisposable.add(Completable.timer(DELAY_SPLASH.toLong(), TimeUnit.SECONDS)

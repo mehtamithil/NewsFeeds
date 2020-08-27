@@ -20,9 +20,13 @@ val repositoryModule = module {
     /**
      * This single ApiService instance would be shared to all API Repositories listed below
      */
-    val apiService by lazy { ApiClient.apiService }
+    val apiService by lazy {
+        ApiClient.apiService
+    }
 
-    single<NewsFeedsRepository> { NewsFeedsRepositoryImpl(apiService) }
+    single<NewsFeedsRepository> {
+        NewsFeedsRepositoryImpl(apiService)
+    }
 }
 
 val viewModelModule = module {
@@ -33,13 +37,26 @@ val viewModelModule = module {
      * passed the instance of NewsFeedsRepository using 'get()' as its now Koin's responsibility to
      * get the NewsFeedsRepository's instance from repositoryModule and pass it here.
      */
-    val mainScheduler by lazy { AndroidSchedulers.mainThread() }
-    val ioScheduler by lazy { Schedulers.io() }
-    val computationScheduler by lazy { Schedulers.computation() }
+    val mainScheduler by lazy {
+        AndroidSchedulers.mainThread()
+    }
 
-    val compositeDisposable by lazy { CompositeDisposable() }
+    val ioScheduler by lazy {
+        Schedulers.io()
+    }
 
-    viewModel { SplashViewModel(mainScheduler, computationScheduler) }
-    viewModel { NewsFeedsViewModel(get(), mainScheduler, ioScheduler, compositeDisposable) }
+    val computationScheduler by lazy {
+        Schedulers.computation()
+    }
 
+    val compositeDisposable by lazy {
+        CompositeDisposable()
+    }
+
+    viewModel {
+        SplashViewModel(mainScheduler, computationScheduler)
+    }
+    viewModel {
+        NewsFeedsViewModel(get(), mainScheduler, ioScheduler, compositeDisposable)
+    }
 }

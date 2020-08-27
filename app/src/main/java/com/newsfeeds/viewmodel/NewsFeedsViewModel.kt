@@ -9,14 +9,22 @@ import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 
-class NewsFeedsViewModel(private val repository: NewsFeedsRepository, private val observeOnScheduler: Scheduler,
-                         private val subscribeOnScheduler: Scheduler, private val compositeDisposable: CompositeDisposable) : ViewModel() {
+class NewsFeedsViewModel(private val repository: NewsFeedsRepository,
+                         private val observeOnScheduler: Scheduler,
+                         private val subscribeOnScheduler: Scheduler,
+                         private val compositeDisposable: CompositeDisposable) : ViewModel() {
 
-    private val mtldOnNewsFeedsListLoaded by lazy { MutableLiveData<NewsFeedsList>() }
+    private val mtldOnNewsFeedsListLoaded by lazy {
+        MutableLiveData<NewsFeedsList>()
+    }
+
     val ldOnNewsFeedsListLoaded: LiveData<NewsFeedsList>
         get() = mtldOnNewsFeedsListLoaded
 
-    private val mtldOnError by lazy { MutableLiveData<String>() }
+    private val mtldOnError by lazy {
+        MutableLiveData<String>()
+    }
+
     val ldOnError: LiveData<String>
         get() = mtldOnError
 
