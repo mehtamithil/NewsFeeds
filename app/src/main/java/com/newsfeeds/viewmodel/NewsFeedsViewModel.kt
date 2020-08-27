@@ -44,6 +44,7 @@ class NewsFeedsViewModel(private val repository: NewsFeedsRepository,
                              * filter removing the NewsFeed if everything is null in it
                              */
                             it.title != null || it.description != null && it.imageHref != null
+
                         }.toMutableList()
 
                         mtldOnNewsFeedsListLoaded.value = nfl

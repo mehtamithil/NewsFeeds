@@ -33,7 +33,9 @@ fun loadImage(activity: Context?, img: ImageView?, url: String?,
 
                     }
 
-                    imgResIdPlaceHolder?.let { img?.setImageResource(it) }
+                    imgResIdPlaceHolder?.let {
+                        img?.setImageResource(it)
+                    }
 
                     return false
                 }
