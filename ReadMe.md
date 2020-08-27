@@ -10,3 +10,13 @@
 - Used DataBinding in RecyclerView row to set data.
 - Used BindingAdapter for setting image loading from url directly into ImageView.
 - Used JUnit and Mockito for Unit Testing.
+- Formatted the Code with following settings:
+
+      Menu Bar => Settings => Code Style:
+                
+      Scheme - Default
+      Line Separator - System Dependent
+      Hard Wrap at - 100 (columns wrap on typing is OFF)
+      
+      Apart, from this I have manually formatted the files by Ctrl+Alt+L 
+      (i.e. Shortcut for Menu Bar => Code => Reformat Code 
